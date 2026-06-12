@@ -1,0 +1,27 @@
+const ProgressSteps = ({ step }) => {
+
+  return (
+
+    <div className="steps">
+
+      <div className={step >= 1 ? "step active" : "step"}>
+        1
+      </div>
+
+      <div className={step >= 2 ? "step active" : "step"}>
+        2
+      </div>
+
+      <div className={step >= 3 ? "step active" : "step"}>
+        3
+      </div>
+
+      <div className={step >= 4 ? "step active" : "step"}>
+        4
+      </div>
+
+    </div>
+  );
+};
+
+export default ProgressSteps;
