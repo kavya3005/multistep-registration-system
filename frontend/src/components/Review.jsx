@@ -11,76 +11,65 @@ const Review = ({ prevStep, formData }) => {
     prevStep();
   };
 
-  const handleSubmit = async () => {
+ const handleSubmit = async () => {
 
-    setLoading(true);
+  setLoading(true);
 
-    console.log("FORM DATA =", formData);
-
-    try {
-
-      const response = await axios.post(
-        "http://localhost:8001/users/signup",
-        {
-          fullname: formData.fullname,
-          email: formData.email,
-          password: formData.password,
-          phone: formData.phone,
-          username: formData.username
-        },
-        {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      );
-
-      console.log(response.data);
-
-      // CHECK STATUS
-      if(response.data.status === true){
+  console.log("FORM DATA =", formData);
 
   try {
 
-    await saveLog({
-      sessionId: "S001",
-      step: 4,
-      action: "Registration Submitted Successfully"
-    });
-
-  } catch(error) {
-
-    console.log(error);
-
-  }
-
-  setLoading(false);
-
-  localStorage.removeItem("currentStep");
-  localStorage.removeItem(
-  "registrationData"
-);
-localStorage.removeItem("authMode");
-alert("Registration Successful ✅");
-
-window.location.reload();
-
-} else {
-
-        setLoading(false);
-
-        alert(response.data.message);
+    const response = await axios.post(
+      "https://multistep-registration-system.onrender.com/api/sessions",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
+    );
 
-    } catch (error) {
+    console.log(response.data);
+
+    if (response.data) {
+
+      try {
+
+        await saveLog({
+          sessionId: "S001",
+          step: 4,
+          action: "Registration Submitted Successfully"
+        });
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
 
       setLoading(false);
 
-      console.log(error);
+      localStorage.removeItem("currentStep");
+      localStorage.removeItem("registrationData");
+      localStorage.removeItem("authMode");
 
-      alert("Registration Failed ❌");
+      alert("Registration Successful ✅");
+
+      window.location.reload();
+
     }
-  };
+
+  } catch (error) {
+
+    setLoading(false);
+
+    console.log(error);
+
+    alert("Registration Failed ❌");
+
+  }
+
+};
 
   return (
 
